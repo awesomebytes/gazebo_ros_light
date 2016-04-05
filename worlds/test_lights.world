@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <sdf version="1.4">
   <world name="default">
-    <!-- A global light source -->
-    <plugin name="gazebo_lights_plugin" filename="libgazebo_ros_light.so"/>
+    <!-- A gazebo links attacher -->
+    <plugin name="gazebo_lights_plugin" filename="libgazebo_ros_attacher.so"/>
     <include>
       <uri>model://sun</uri>
     </include>

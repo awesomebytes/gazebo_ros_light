@@ -1,11 +1,11 @@
 /*
- * Desc: Gazebo lights plugin.
- * Author: Toni Gabas (agabas@iri.upc.edu)
- * Date: 02/03/2015
+ * Desc: Gazebo link attacher plugin.
+ * Author: Sammy Pfeiffer (sam.pfeiffer@pal-robotics.com)
+ * Date: 05/04/2016
  */
 
-#ifndef GAZEBO_ROS_LIGHT_HH
-#define GAZEBO_ROS_LIGHT_HH
+#ifndef GAZEBO_ROS_LINK_ATTACHER_HH
+#define GAZEBO_ROS_LINK_ATTACHER_HH
 
 #include <ros/ros.h>
 
@@ -20,19 +20,19 @@
 #include "gazebo/msgs/light.pb.h"
 #include "gazebo/transport/transport.hh"
 
-#include <gazebo_ros_light/LightState.h>
+#include <gazebo_ros_link_attacher/LightState.h>
 
 namespace gazebo
 {
 
-   class GazeboRosLight : public WorldPlugin
+   class GazeboRosLinkAttacher : public WorldPlugin
    {
       public:
         /// \brief Constructor
-        GazeboRosLight();
+        GazeboRosLinkAttacher();
 
         /// \brief Destructor
-        virtual ~GazeboRosLight();
+        virtual ~GazeboRosLinkAttacher();
 
         /// \brief Load the controller
         void Load( physics::WorldPtr _world, sdf::ElementPtr _sdf );
@@ -47,7 +47,7 @@ namespace gazebo
         transport::PublisherPtr lightsPub;
         ros::NodeHandle nh_;
         ros::Subscriber set_light_st_subscriber_;
-        void set_light_st_callback(const gazebo_ros_light::LightStateConstPtr& msg);
+        void set_light_st_callback(const gazebo_ros_link_attacher::LightStateConstPtr& msg);
 
    };
 

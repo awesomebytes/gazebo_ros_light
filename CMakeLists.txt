@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(gazebo_ros_light)
+project(gazebo_ros_link_attacher)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -108,7 +108,7 @@ include_directories(${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE
 # add_library(gazebo_ros_light
 #   src/${PROJECT_NAME}/gazebo_ros_light.cpp
 # )
-add_library(${PROJECT_NAME} src/gazebo_ros_light.cpp)
+add_library(${PROJECT_NAME} src/gazebo_ros_link_attacher.cpp)
 
 
 ## Declare a cpp executable

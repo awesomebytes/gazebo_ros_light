@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <package>
-  <name>gazebo_ros_light</name>
+  <name>gazebo_ros_link_attacher</name>
   <version>0.0.0</version>
-  <description>The gazebo_ros_light package</description>
+  <description>The gazebo_ros_link_attacher package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="agabas@iri.upc.edu">Toni Gabas</maintainer>
+  <maintainer email="sam.pfeiffer@pal-robotics.com">Sammy Pfeiffer</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>LGPL</license>
+  <license>BSD</license>
 
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->

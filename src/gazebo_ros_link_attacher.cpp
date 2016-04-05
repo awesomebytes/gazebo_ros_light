@@ -1,24 +1,24 @@
 #include <gazebo/common/Plugin.hh>
 #include <ros/ros.h>
-#include "gazebo_ros_light.h"
+#include "gazebo_ros_link_attacher.h"
 
 namespace gazebo
 {
   // Register this plugin with the simulator
-  GZ_REGISTER_WORLD_PLUGIN(GazeboRosLight)
+  GZ_REGISTER_WORLD_PLUGIN(GazeboRosLinkAttacher)
 
   // Constructor
-  GazeboRosLight::GazeboRosLight() :
+  GazeboRosLinkAttacher::GazeboRosLinkAttacher() :
     nh_("gazebo_light_node")
   {
   }
 
   // Destructor
-  GazeboRosLight::~GazeboRosLight()
+  GazeboRosLinkAttacher::~GazeboRosLinkAttacher()
   {
   }
 
-  void GazeboRosLight::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
+  void GazeboRosLinkAttacher::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   {
     // Make sure the ROS node for Gazebo has already been initialized                                                                                    
     if (!ros::isInitialized())
@@ -39,11 +39,11 @@ namespace gazebo
 
 
     ROS_INFO("Lights Plugin Initialized");
-    this->set_light_st_subscriber_ = this->nh_.subscribe("set_light_state", 1, &GazeboRosLight::set_light_st_callback, this);
+    this->set_light_st_subscriber_ = this->nh_.subscribe("set_light_state", 1, &GazeboRosLinkAttacher::set_light_st_callback, this);
   }
 
 
-  void GazeboRosLight::set_light_st_callback(const gazebo_ros_light::LightStateConstPtr& msg)
+  void GazeboRosLinkAttacher::set_light_st_callback(const gazebo_ros_link_attacher::LightStateConstPtr& msg)
   {
     ROS_DEBUG("New light message received!");
     
