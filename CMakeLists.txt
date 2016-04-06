@@ -109,6 +109,7 @@ include_directories(${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE
 #   src/${PROJECT_NAME}/gazebo_ros_light.cpp
 # )
 add_library(${PROJECT_NAME} src/gazebo_ros_link_attacher.cpp)
+add_library(link_attacher_plugin src/LinkAttacher.cc)
 
 
 ## Declare a cpp executable
@@ -120,6 +121,7 @@ add_library(${PROJECT_NAME} src/gazebo_ros_link_attacher.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+target_link_libraries(link_attacher_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 
 #############

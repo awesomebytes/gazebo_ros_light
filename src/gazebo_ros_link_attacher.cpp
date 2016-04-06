@@ -42,6 +42,24 @@ namespace gazebo
     this->set_light_st_subscriber_ = this->nh_.subscribe("set_light_state", 1, &GazeboRosLinkAttacher::set_light_st_callback, this);
   }
 
+  bool GazeboRosLinkAttacher::attach(std::string link1, std::string link2)
+  {
+    // Get link1 and link2 by name
+
+
+    this->fixedJoint->Load(this->link1,
+        this->link2, math::Pose());
+    this->fixedJoint->Init();
+    this->fixedJoint->SetHighStop(0, 0);
+    this->fixedJoint->SetLowStop(0, 0);
+    return true;
+  }
+
+  bool GazeboRosLinkAttacher::detach(std::string link1, std::string link2)
+  {
+    return true;
+  }
+
 
   void GazeboRosLinkAttacher::set_light_st_callback(const gazebo_ros_link_attacher::LightStateConstPtr& msg)
   {
