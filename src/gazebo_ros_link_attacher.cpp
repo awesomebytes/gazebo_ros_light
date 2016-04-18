@@ -13,6 +13,7 @@ namespace gazebo
   {
   }
 
+
   // Destructor
   GazeboRosLinkAttacher::~GazeboRosLinkAttacher()
   {
@@ -33,6 +34,8 @@ namespace gazebo
 
       // Initialize the node with the world name
       light_node->Init(_world->GetName());
+      this->world = _world;
+      this->physics = this->world->GetPhysicsEngine();
 
       // Create a publisher on the ~/physics topic
       this->lightsPub = light_node->Advertise<msgs::Light>("~/light");
@@ -44,27 +47,69 @@ namespace gazebo
 
   bool GazeboRosLinkAttacher::attach(std::string link1, std::string link2)
   {
-    // Get link1 and link2 by name
 
+    ROS_INFO_STREAM("Getting BasePtr of unit_box_1 and unit_sphere_1");
+    physics::BasePtr b1 = this->world->GetByName("unit_box_1");
+    physics::BasePtr b2 = this->world->GetByName("unit_sphere_1");
 
-    this->fixedJoint->Load(this->link1,
-        this->link2, math::Pose());
+    ROS_INFO_STREAM("Casting into ModelPtr");
+    physics::ModelPtr m1(dynamic_cast<physics::Model*>(b1.get()));
+    physics::ModelPtr m2(dynamic_cast<physics::Model*>(b2.get()));
+
+    // Both compile, go try.
+
+    //this->fixedJoint->Load(dynamic_cast<physics::Model*>(b1.get())->GetLink("link"),
+    //                       dynamic_cast<physics::Model*>(b2.get())->GetLink("link"), math::Pose());
+
+    ROS_INFO_STREAM("Getting links in between them");
+    physics::LinkPtr l1 = m1->GetLink("link");
+    physics::LinkPtr l2 = m2->GetLink("link");
+    ROS_INFO_STREAM("Links are: "  << l1->GetName() << " and " << l2->GetName());
+
+    ROS_INFO_STREAM("Creating revolute joint on m1");
+    this->fixedJoint = this->physics->CreateJoint("revolute", m1);
+    this->fixedJoint->Update();
+
+    ROS_INFO_STREAM("Loading links");
+    this->fixedJoint->Load(l1,
+                           l2, math::Pose());
+    ROS_INFO_STREAM("Init");
     this->fixedJoint->Init();
+    ROS_INFO_STREAM("SetHightstop");
     this->fixedJoint->SetHighStop(0, 0);
+    ROS_INFO_STREAM("SetLowStop");
     this->fixedJoint->SetLowStop(0, 0);
+    ROS_INFO_STREAM("We are done");
+    this->fixedJoint->Update();
+//    this->fixedJoint->Fini();
+//    ROS_INFO_STREAM("We finished the model");
     return true;
   }
 
   bool GazeboRosLinkAttacher::detach(std::string link1, std::string link2)
   {
+    this->fixedJoint->Detach();
     return true;
   }
 
 
   void GazeboRosLinkAttacher::set_light_st_callback(const gazebo_ros_link_attacher::LightStateConstPtr& msg)
   {
-    ROS_DEBUG("New light message received!");
-    
+    ROS_INFO("New light message received!");
+    math::Vector3 p;
+    p.x = msg->pose.position.x;
+    p.y = msg->pose.position.y;
+    p.z = msg->pose.position.z;
+    physics::ModelPtr this_model = this->world->GetModelBelowPoint(p);
+    ROS_INFO_STREAM("NAME of model under the point is: " << this_model->GetName());
+
+    if(msg->type == "attach")
+     this->attach("", "");
+    else if(msg->type == "detach")
+      this->detach("", "");
+
+
+
     // 1. Set light name
     lightMsg.set_name(msg->light_name);
 
